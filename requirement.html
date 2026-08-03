@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="requirement.css">
+</head>
+<body>
+    <div class="page-wrap">
+      <div class="head1">
+          <h1>Purchase Requirements <br><span>For New Accounts</span></h1>
+      </div>
+    <div class="head2">
+        <p>New Tiktok Shop Accounts are required to <br> make purchases (inventory or spend)<br>
+        worth at least <span>$500</span> before you can access Full seller features.</p>
+    </div>
+    <div class="head3">
+        <p>Your Current Purchase Value</p>
+    </div>
+    <div class="head4">
+        <p> <span id="currentAmount">$165.00</span></p>
+    </div>
+    <div class="head5">
+        <p>Minimum Required</p>
+    </div>
+    <div class="head6">
+        <p> <span id="targetAmount">$500.00</span></p>
+    </div>
+
+
+    <div class="progress-bar" aria-label="Progress toward purchase requirement">
+        <div id="progressFill" class="progress"></div>
+    </div>
+    <div class="progress-text" id="progressText"></div>
+
+
+
+    <script>
+      const current = parseFloat(document.getElementById('currentAmount').textContent.replace(/[^0-9.]/g, '')) || 0;
+      const target = parseFloat(document.getElementById('targetAmount').textContent.replace(/[^0-9.]/g, '')) || 1;
+      const percent = Math.min(100, Math.max(0, (current / target) * 100));
+      document.getElementById('progressFill').style.width = `${percent}%`;
+      document.getElementById('progressText').textContent = `${Math.round(percent)}% of requirement met`;
+    </script>
+
+    <button class="back-button" onclick="window.location.href='#'">Reach $500 to Unlock Full Access</button>
+    </div>
+</body>
+</html>

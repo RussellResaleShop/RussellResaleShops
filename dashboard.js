@@ -19,12 +19,13 @@ const dashboardData = {
   The token must exactly match one in access-control.js.
 */
 const dashboardDataByToken = {
-  'RUSSELL-SELLER-071': {
+  'RUSSELL-SELLER-001': {
     profileName: 'Donna Raye',
     revenue: 165.00,
     orders: 3,
     itemsSold: 0,
-    products: ["Automatic Cat Litter Box: [],
+    products: ['Automatic Cat Litter Box(1l)'],
+    recentOrders: [],
     countrySales: [],
     weeklyRevenue: [0, 0, 0, 0],
     dailyRevenue: [0, 0, 0, 0, 0, 0, 0]

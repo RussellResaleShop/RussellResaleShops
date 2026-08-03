@@ -11,7 +11,7 @@ const sellerAccounts = [
   {
     name: 'Donna Raye',
     email: 'grumblis1@bellsouth.net',
-    token: 'RUSSELL-SELLER-071'
+    token: 'RUSSELL-SELLER-001'
   },
   {
     name: 'Seller Two',
