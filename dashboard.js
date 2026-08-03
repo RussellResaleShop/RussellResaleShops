@@ -85,9 +85,20 @@ const productNames = [
   "Luxury Eau de Parfum",
   "Gold-Plated Pendant Necklace",
   "Classic Stainless Steel Watch",
+  "Cat Water Fountain",
+  "Enclosed Cat Litter Box",
   "Premium Leather Handbag",
   "Everyday Running Sneakers",
   "Minimal Table Lamp",
+  "Automatic Cat Water Fountain",
+  "Quiet Flow Cat Fountain",
+  "Stainless Steel Cat Water Fountain",
+  "Compact Cat Water Fountain",
+  "Covered Cat Litter Box",
+  "Large Enclosed Cat Litter Box",
+  "Modern Cat Litter Box",
+  "Easy-Clean Cat Litter Box",
+  "Premium Covered Cat Litter Box",
   "Home Strength Training Set",
   "Educational Building Blocks",
   "Premium Coffee Collection",
@@ -269,9 +280,18 @@ function setText(id, value) {
 }
 
 function populateProductNamesList() {
-  const select = document.getElementById('newProductName');
-  if (!select) return;
-  select.innerHTML = ['<option value="">Select a product</option>', ...productNames.map(name => `<option value="${name}">${name}</option>`)].join('');
+  const input = document.getElementById('newProductName');
+  const datalist = document.getElementById('productNameSuggestions');
+  if (!input || !datalist) return;
+
+  const renderSuggestions = (query = '') => {
+    const normalizedQuery = query.trim().toLowerCase();
+    const matches = productNames.filter(name => name.toLowerCase().includes(normalizedQuery));
+    datalist.innerHTML = matches.map(name => `<option value="${name}"></option>`).join('');
+  };
+
+  renderSuggestions();
+  input.addEventListener('input', event => renderSuggestions(event.target.value));
 }
 
 const profileName = getProfileNameForUser();
