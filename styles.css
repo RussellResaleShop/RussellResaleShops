@@ -2007,6 +2007,78 @@ th {
   margin-top: 16px;
 }
 
+.payments-panel {
+  margin-top: 16px;
+}
+
+.payment-card-mini {
+  background: linear-gradient(135deg, #fff7f9 0%, #fff 100%);
+  border: 1px solid #ffe0e8;
+  border-radius: 16px;
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.payment-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.payment-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.payment-brand strong {
+  font-size: 15px;
+}
+
+.payment-brand p {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.payment-details {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.payment-details span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.payment-details strong {
+  font-size: 16px;
+  color: var(--primary);
+}
+
+.payment-note {
+  background: #fff5f7;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.payment-note p {
+  color: #8d2f4c;
+  font-size: 12px;
+}
+
 .analytics-period {
   color: rgb(79, 70, 229);
   background: rgb(238, 236, 255);

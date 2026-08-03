@@ -13,6 +13,65 @@ const dashboardData = {
   dailyRevenue: [0, 0, 0, 0, 0, 0, 0]
 };
 
+/*
+  OPTIONAL SELLER-SPECIFIC DASHBOARD DATA
+  Add a token here to give that seller their own starting dashboard values.
+  The token must exactly match one in access-control.js.
+*/
+const dashboardDataByToken = {
+  'RUSSELL-SELLER-001': {
+    profileName: 'Donna Raye',
+    revenue: 0,
+    orders: 0,
+    itemsSold: 0,
+    products: [],
+    recentOrders: [],
+    countrySales: [],
+    weeklyRevenue: [0, 0, 0, 0],
+    dailyRevenue: [0, 0, 0, 0, 0, 0, 0]
+  },
+  'RUSSELL-SELLER-002': {
+    revenue: 0,
+    orders: 0,
+    itemsSold: 0,
+    products: [],
+    recentOrders: [],
+    countrySales: [],
+    weeklyRevenue: [0, 0, 0, 0],
+    dailyRevenue: [0, 0, 0, 0, 0, 0, 0]
+  },
+  'RUSSELL-SELLER-003': {
+    revenue: 0,
+    orders: 0,
+    itemsSold: 0,
+    products: [],
+    recentOrders: [],
+    countrySales: [],
+    weeklyRevenue: [0, 0, 0, 0],
+    dailyRevenue: [0, 0, 0, 0, 0, 0, 0]
+  },
+  'RUSSELL-SELLER-004': {
+    revenue: 0,
+    orders: 0,
+    itemsSold: 0,
+    products: [],
+    recentOrders: [],
+    countrySales: [],
+    weeklyRevenue: [0, 0, 0, 0],
+    dailyRevenue: [0, 0, 0, 0, 0, 0, 0]
+  },
+  'RUSSELL-SELLER-005': {
+    revenue: 0,
+    orders: 0,
+    itemsSold: 0,
+    products: [],
+    recentOrders: [],
+    countrySales: [],
+    weeklyRevenue: [0, 0, 0, 0],
+    dailyRevenue: [0, 0, 0, 0, 0, 0, 0]
+  }
+};
+
 const productNames = [
   "Noise-Cancelling Headphones",
   "Rayban Smartglasses",
@@ -161,16 +220,40 @@ const productNames = [
   "Travel Toenail Grooming Cutter"
 ];
 
-if (localStorage.getItem('russellDashboardLoggedIn') !== 'true') {
-  window.location.href = 'login.html';
+if (!hasValidSellerSession()) {
+  localStorage.removeItem('russellDashboardLoggedIn');
+  localStorage.removeItem('russellDashboardUser');
+  localStorage.removeItem('russellDashboardToken');
+  window.location.href = 'index.html';
 }
 
-const user = JSON.parse(localStorage.getItem('russellDashboardUser') || '{"name":"Administrator"}');
-const savedData = JSON.parse(localStorage.getItem('russellDashboardData') || 'null');
-const data = savedData || dashboardData;
+const user = getSellerSession() || { name: 'Seller', token: '' };
+
+function getProfileNameForUser() {
+  const token = String((user?.token || localStorage.getItem('russellDashboardToken') || '')).trim().toUpperCase();
+  const tokenConfig = dashboardDataByToken[token];
+  return tokenConfig?.profileName || user?.name || 'Seller';
+}
+
+function createDefaultData() {
+  const token = normalizeToken(user.token);
+  return JSON.parse(JSON.stringify(dashboardDataByToken[token] || dashboardData));
+}
+
+function getUserDataKey() {
+  const token = (localStorage.getItem('russellDashboardToken') || '').trim();
+  return token ? `russellDashboardData_${token}` : 'russellDashboardData';
+}
+
+function loadUserData() {
+  const savedData = JSON.parse(localStorage.getItem(getUserDataKey()) || 'null');
+  return savedData ? savedData : createDefaultData();
+}
+
+const data = loadUserData();
 
 function saveData() {
-  localStorage.setItem('russellDashboardData', JSON.stringify(data));
+  localStorage.setItem(getUserDataKey(), JSON.stringify(data));
 }
 
 function money(value) {
@@ -191,9 +274,10 @@ function populateProductNamesList() {
   select.innerHTML = ['<option value="">Select a product</option>', ...productNames.map(name => `<option value="${name}">${name}</option>`)].join('');
 }
 
-setText('profileName', user.name || 'Administrator');
+const profileName = getProfileNameForUser();
+setText('profileName', profileName);
 populateProductNamesList();
-const initials = (user.name || 'Administrator').split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase();
+const initials = profileName.split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase();
 setText('profileAvatar', initials);
 
 function renderMetrics() {
@@ -347,7 +431,8 @@ document.getElementById('sellerNotificationsButton')?.addEventListener('click', 
 document.getElementById('logoutBtn')?.addEventListener('click', () => {
   localStorage.removeItem('russellDashboardLoggedIn');
   localStorage.removeItem('russellDashboardUser');
-  window.location.href = 'login.html';
+  localStorage.removeItem('russellDashboardToken');
+  window.location.href = 'index.html';
 });
 
 renderMetrics();
