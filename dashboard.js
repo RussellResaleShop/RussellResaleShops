@@ -8,7 +8,7 @@ const dashboardData = {
   itemsSold: 0,
   products: [],
   recentOrders: [],
-  countrySales: [],
+  countrySales: ["United States", 0, 0],
   weeklyRevenue: [0, 0, 0, 0],
   dailyRevenue: [0, 0, 0, 0, 0, 0, 0]
 };
@@ -18,11 +18,37 @@ const dashboardData = {
   Add a token here to give that seller their own starting dashboard values.
   The token must exactly match one in access-control.js.
 */
+/**
+ * 'RUSSELL-SELLER-071': {
+  profileName: 'Donna Raye',
+  revenue: 330.00,
+  orders: 2,
+  itemsSold: 0,
+  products: [
+    { name: 'Automatic Cat Litter Box(1l)', quantity: 10, price: 49.99 },
+    { name: 'Hydrating Skin Care Set', quantity: 5, price: 24.99 }
+  ],
+  recentOrders: [
+    {
+      id: 'ORD-001',
+      customer: 'Alice Green',
+      product: 'Hydrating Skin Care Set',
+      country: 'Australia',
+      total: 24.99
+    }
+  ],
+  countrySales: [
+    { country: 'Australia', orders: 120, revenue: 330.00 }
+  ],
+  weeklyRevenue: [0, 0, 0, 0],
+  dailyRevenue: [0, 0, 0, 0, 0, 0, 0]
+}
+ */
 const dashboardDataByToken = {
   'RUSSELL-SELLER-071': {
     profileName: 'Donna Raye',
-    revenue: 165.00,
-    orders: 3,
+    revenue: 330.00,
+    orders: 2,
     itemsSold: 0,
     products: ['Automatic Cat Litter Box(1l)'],
     recentOrders: [],
@@ -248,7 +274,14 @@ function getProfileNameForUser() {
 
 function createDefaultData() {
   const token = normalizeToken(user.token);
-  return JSON.parse(JSON.stringify(dashboardDataByToken[token] || dashboardData));
+  const defaultData = JSON.parse(JSON.stringify(dashboardDataByToken[token] || dashboardData));
+  defaultData.products = (defaultData.products || []).map(product => {
+    if (typeof product === 'string') {
+      return { name: product, quantity: 0, price: 0 };
+    }
+    return product;
+  });
+  return defaultData;
 }
 
 function getUserDataKey() {
@@ -325,14 +358,19 @@ function renderMetrics() {
 function renderProducts() {
   const container = document.getElementById('topProducts');
   if (!container) return;
-  container.innerHTML = data.products.length ? data.products.map((product, index) => `
-    <div class="top-product">
-      <div class="seller-avatar">${product.name.slice(0, 2).toUpperCase()}</div>
-      <div><strong>${product.name}</strong><small>${product.quantity || 0} available</small></div>
-      <strong>${money(product.price)}</strong>
-      <button class="listing-action listing-action-danger" onclick="removeProduct(${index})">Remove</button>
-    </div>
-  `).join('') : '<p>No products yet. Use “Add product” when you are ready.</p>';
+  container.innerHTML = data.products.length ? data.products.map((product, index) => {
+    const name = typeof product === 'string' ? product : product.name;
+    const quantity = product && typeof product === 'object' && product.quantity != null ? product.quantity : 0;
+    const price = product && typeof product === 'object' && product.price != null ? product.price : 0;
+    return `
+      <div class="top-product">
+        <div class="seller-avatar">${String(name).slice(0, 2).toUpperCase()}</div>
+        <div><strong>${name}</strong><small>${quantity} available</small></div>
+        <strong>${money(price)}</strong>
+        <button class="listing-action listing-action-danger" onclick="removeProduct(${index})">Remove</button>
+      </div>
+    `;
+  }).join('') : '<p>No products yet. Use “Add product” when you are ready.</p>';
 }
 
 function renderOrders() {
@@ -402,8 +440,14 @@ window.removeProduct = index => {
 };
 
 const modal = document.getElementById('productModal');
-document.getElementById('addProductBtn')?.addEventListener('click', () => modal?.classList.add('active'));
-document.getElementById('closeModal')?.addEventListener('click', () => modal?.classList.remove('active'));
+document.getElementById('addProductBtn')?.addEventListener('click', () => {
+  modal?.classList.add('active');
+  document.body.classList.add('no-scroll');
+});
+document.getElementById('closeModal')?.addEventListener('click', () => {
+  modal?.classList.remove('active');
+  document.body.classList.remove('no-scroll');
+});
 
 document.getElementById('productForm')?.addEventListener('submit', event => {
   event.preventDefault();
@@ -416,6 +460,7 @@ document.getElementById('productForm')?.addEventListener('submit', event => {
   renderMetrics();
   renderProducts();
   modal.classList.remove('active');
+  document.body.classList.remove('no-scroll');
   event.target.reset();
   showToast('Product added successfully.');
 });
@@ -425,10 +470,12 @@ const overlay = document.getElementById('dashboardOverlay');
 document.getElementById('sidebarToggle')?.addEventListener('click', () => {
   sidebar?.classList.add('active');
   overlay?.classList.add('active');
+  document.body.classList.add('no-scroll');
 });
 function closeSidebar() {
   sidebar?.classList.remove('active');
   overlay?.classList.remove('active');
+  document.body.classList.remove('no-scroll');
 }
 document.getElementById('sidebarClose')?.addEventListener('click', closeSidebar);
 overlay?.addEventListener('click', closeSidebar);

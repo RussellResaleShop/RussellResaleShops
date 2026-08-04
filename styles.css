@@ -1232,6 +1232,22 @@ img {
   font-weight: 600;
 }
 
+/* Prevent background scrolling when overlays or sidebars are open */
+.no-scroll {
+  overflow: hidden !important;
+  /* Avoid fixing body position here to prevent layout shift when scrollbars disappear on mobile. */
+}
+
+/* Improve touch responsiveness on interactive elements */
+button,
+a,
+.sidebar-nav a,
+.sidebar-toggle,
+.sidebar-close {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .auth-tabs {
   display: flex;
   gap: 8px;
@@ -1398,7 +1414,8 @@ img {
   padding: 26px 18px;
   display: flex;
   flex-direction: column;
-  z-index: 70;
+  z-index: 90;
+  -webkit-overflow-scrolling: touch;
 }
 
 .sidebar-top {
@@ -1530,8 +1547,8 @@ img {
 }
 
 .header-left p {
-  color: var(--muted);
-  font-size: 12px;
+  top: 0;
+  z-index: 200; /* ensure header stays above overlays on mobile */
 }
 
 .sidebar-toggle {
@@ -1542,8 +1559,9 @@ img {
   padding: 8px;
   width: 40px;
   height: 40px;
-  align-items: center;
+  z-index: 190;
   justify-content: center;
+  z-index: 210; /* keep toggle clickable above sidebar/overlays */
 }
 
 .sidebar-toggle svg {
