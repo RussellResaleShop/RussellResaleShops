@@ -488,18 +488,33 @@ document.getElementById('productForm')?.addEventListener('submit', event => {
 
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('dashboardOverlay');
-document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+const sidebarToggle = document.getElementById('sidebarToggle');
+function openSidebar() {
   sidebar?.classList.add('active');
   overlay?.classList.add('active');
+  sidebarToggle?.classList.add('active');
+  sidebarToggle?.setAttribute('aria-expanded', 'true');
+  sidebarToggle?.setAttribute('aria-label', 'Close navigation');
   document.body.classList.add('no-scroll');
+}
+sidebarToggle?.addEventListener('click', () => {
+  if (sidebar?.classList.contains('active')) closeSidebar();
+  else openSidebar();
 });
 function closeSidebar() {
   sidebar?.classList.remove('active');
   overlay?.classList.remove('active');
+  sidebarToggle?.classList.remove('active');
+  sidebarToggle?.setAttribute('aria-expanded', 'false');
+  sidebarToggle?.setAttribute('aria-label', 'Open navigation');
   document.body.classList.remove('no-scroll');
 }
 document.getElementById('sidebarClose')?.addEventListener('click', closeSidebar);
 overlay?.addEventListener('click', closeSidebar);
+document.querySelectorAll('.sidebar-nav a').forEach(link => link.addEventListener('click', closeSidebar));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && sidebar?.classList.contains('active')) closeSidebar();
+});
 
 document.getElementById('analyticsNav')?.addEventListener('click', event => {
   event.preventDefault();
