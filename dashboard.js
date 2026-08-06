@@ -47,14 +47,14 @@ const dashboardData = {
 const dashboardDataByToken = {
   'RUSSELL-SELLER-071': {
     profileName: 'Donna Raye',
-    revenue: 330.00,
-    orders: 2,
-    itemsSold: 0,
+    revenue: 2250.00,
+    orders: 11,
+    itemsSold: 11,
     products: ['Automatic Cat Litter Box(1l)'],
     recentOrders: [],
     countrySales: [],
     weeklyRevenue: [0, 0, 0, 0],
-    dailyRevenue: [0, 0, 0, 0, 0, 0, 0]
+    dailyRevenue: [1, 0, 0, 0, 0, 0, 0]
   },
   'RUSSELL-SELLER-002': {
     revenue: 0,
