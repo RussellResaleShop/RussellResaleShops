@@ -1,51 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="Requirement.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Requirements | Russell Retail Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Requirement.css">
 </head>
 <body>
-    <div class="page-wrap">
-    <a href="dashboard.html" class="back-link" style="display:inline-block;margin:12px 0;text-decoration:none;color:#333;">← Back to Dashboard</a>
-    <div class="head1">
-          <h1>Purchase Requirements <br><span>For New Accounts</span></h1>
+  <main class="page-wrap">
+    <a href="dashboard.html" class="back-link">&larr; Back to Dashboard</a>
+
+    <header class="head1">
+      <p class="eyebrow">SELLER ELIGIBILITY</p>
+      <h1>Account requirements</h1>
+      <p id="sellerName" class="seller-name">Your personalized requirements</p>
+    </header>
+
+    <section id="statusCard" class="status-card" aria-live="polite">
+      <span id="statusIcon" class="status-icon" aria-hidden="true">✓</span>
+      <div>
+        <strong id="statusTitle">Approved</strong>
+        <p id="statusDescription">You meet the requirements for full seller access.</p>
       </div>
-    <div class="head2">
-        <p>New Tiktok Shop Accounts are required to <br> make purchases (inventory or spend)<br>
-        worth at least <span>$500</span> before you can access Full seller features.</p>
-    </div>
-    <div class="head3">
-        <p>Your Current Purchase Value</p>
-    </div>
-    <div class="head4">
-        <p> <span id="currentAmount">$165.00</span></p>
-    </div>
-    <div class="head5">
-        <p>Minimum Required</p>
-    </div>
-    <div class="head6">
-        <p> <span id="targetAmount">$500.00</span></p>
-    </div>
+    </section>
 
+    <section class="head2">
+      <p id="requirementSummary">Your requirements are based on your recorded revenue and products sold.</p>
+    </section>
 
-    <div class="progress-bar" aria-label="Progress toward purchase requirement">
-        <div id="progressFill" class="progress"></div>
-    </div>
-    <div class="progress-text" id="progressText"></div>
+    <section class="metrics" aria-label="Requirement progress">
+      <article class="metric-card">
+        <p>Recorded revenue</p>
+        <strong id="currentRevenue">$0.00</strong>
+        <small id="revenueTarget">Target: $0.00</small>
+      </article>
+      <article class="metric-card">
+        <p>Products sold</p>
+        <strong id="currentProductsSold">0</strong>
+        <small id="productsTarget">Target: 0 products</small>
+      </article>
+    </section>
 
+    <section class="progress-section">
+      <div class="progress-label"><span>Revenue progress</span><strong id="revenueProgressText">0%</strong></div>
+      <div class="progress-bar" aria-label="Revenue requirement progress"><div id="revenueProgress" class="progress"></div></div>
+      <div class="progress-label"><span>Products sold progress</span><strong id="productsProgressText">0%</strong></div>
+      <div class="progress-bar" aria-label="Products sold requirement progress"><div id="productsProgress" class="progress"></div></div>
+    </section>
 
+    <p id="nextStep" class="next-step"></p>
+    <a id="statusAction" class="status-action" href="dashboard.html">Return to Dashboard</a>
+  </main>
 
-    <script>
-      const current = parseFloat(document.getElementById('currentAmount').textContent.replace(/[^0-9.]/g, '')) || 0;
-      const target = parseFloat(document.getElementById('targetAmount').textContent.replace(/[^0-9.]/g, '')) || 1;
-      const percent = Math.min(100, Math.max(0, (current / target) * 100));
-      document.getElementById('progressFill').style.width = `${percent}%`;
-      document.getElementById('progressText').textContent = `${Math.round(percent)}% of requirement met`;
-    </script>
-
-    <button class="back-button" onclick="window.location.href='#'">Reach $500 to Unlock Full Access</button>
-    </div>
+  <script src="access-control.js"></script>
+  <script src="requirements.js"></script>
 </body>
 </html>

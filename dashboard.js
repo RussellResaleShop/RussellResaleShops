@@ -52,9 +52,12 @@ const dashboardDataByToken = {
     itemsSold: 11,
     products: ['Automatic Cat Litter Box(1l)'],
     recentOrders: [],
-    countrySales: [],
-    weeklyRevenue: [0, 0, 0, 0],
-    dailyRevenue: [1, 0, 0, 0, 0, 0, 0]
+    countrySales: ["United States", 2, 520,
+      "United States", 2, 520
+
+    ],
+    weeklyRevenue: [10, 0, 0, 0],
+    dailyRevenue: [500, 520, 400, 550, 280, 0, 0]
   },
   'RUSSELL-SELLER-002': {
     revenue: 0,
@@ -281,6 +284,20 @@ function createDefaultData() {
     }
     return product;
   });
+  // Accept the documented country object format and safely handle the older
+  // [country, orders, revenue] format as well.
+  if (Array.isArray(defaultData.countrySales) && typeof defaultData.countrySales[0] === 'string') {
+    defaultData.countrySales = defaultData.countrySales[0]
+      ? [{
+          country: defaultData.countrySales[0],
+          orders: Number(defaultData.countrySales[1]) || 0,
+          revenue: Number(defaultData.countrySales[2]) || 0
+        }]
+      : [];
+  }
+  defaultData.countrySales = Array.isArray(defaultData.countrySales) ? defaultData.countrySales : [];
+  defaultData.weeklyRevenue = Array.isArray(defaultData.weeklyRevenue) ? defaultData.weeklyRevenue.map(value => Number(value) || 0) : [0, 0, 0, 0];
+  defaultData.dailyRevenue = Array.isArray(defaultData.dailyRevenue) ? defaultData.dailyRevenue.map(value => Number(value) || 0) : [0, 0, 0, 0, 0, 0, 0];
   return defaultData;
 }
 
@@ -290,8 +307,9 @@ function getUserDataKey() {
 }
 
 function loadUserData() {
-  const savedData = JSON.parse(localStorage.getItem(getUserDataKey()) || 'null');
-  return savedData ? savedData : createDefaultData();
+  // dashboard.js is the source of truth. Changes made above are always shown
+  // after refresh instead of being hidden behind an older browser cache.
+  return createDefaultData();
 }
 
 const data = loadUserData();
@@ -299,6 +317,9 @@ const data = loadUserData();
 function saveData() {
   localStorage.setItem(getUserDataKey(), JSON.stringify(data));
 }
+
+// Keep the requirement page in sync with the active dashboard configuration.
+saveData();
 
 function money(value) {
   return `$${Number(value || 0).toLocaleString('en-US', {

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Withdrawal Requirements | Russell Retail Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; padding: 24px 16px; background: #f6f7fb; color: #172033; font-family: Inter, sans-serif; }
+    .page-wrap { width: min(100%, 520px); margin: 0 auto; padding: 28px; background: #fff; border-radius: 24px; box-shadow: 0 12px 32px rgba(23, 32, 51, .09); }
+    .back-link { display: inline-block; margin-bottom: 28px; color: #526076; font-size: 14px; font-weight: 600; text-decoration: none; }
+    .back-link:hover { color: #e52d4f; }
+    header { text-align: center; }
+    .eyebrow { margin: 0 0 8px; color: #e52d4f; font-size: 11px; font-weight: 800; letter-spacing: .12em; }
+    h1 { margin: 0; font-size: 27px; line-height: 1.2; }
+    .subtitle { margin: 10px 0 0; color: #68758a; font-size: 14px; }
+    .notice { display: flex; gap: 13px; align-items: center; margin: 25px 0 16px; padding: 16px; border: 1px solid #ffc7d1; border-radius: 14px; background: #fff0f3; }
+    .notice-icon { display: grid; width: 34px; height: 34px; flex: 0 0 34px; place-items: center; border-radius: 50%; background: #e52d4f; color: #fff; font-size: 18px; font-weight: 800; }
+    .notice strong { color: #b51d3a; font-size: 16px; }
+    .notice p { margin: 4px 0 0; color: #9c3850; font-size: 13px; line-height: 1.4; }
+    .intro { margin: 0 0 18px; padding: 14px; border-radius: 12px; background: #fff4f6; color: #754758; font-size: 13px; line-height: 1.5; }
+    .intro p { margin: 0; }
+    .requirements { display: grid; gap: 12px; }
+    .requirement { display: flex; gap: 13px; align-items: flex-start; padding: 16px; border: 1px solid #e7ebf2; border-radius: 14px; }
+    .requirement-number { display: grid; width: 28px; height: 28px; flex: 0 0 28px; place-items: center; border-radius: 50%; background: #fff0f3; color: #e52d4f; font-size: 13px; font-weight: 800; }
+    .requirement h2 { margin: 2px 0 5px; font-size: 15px; }
+    .requirement p { margin: 0; color: #68758a; font-size: 13px; line-height: 1.5; }
+    .status { display: inline-block; margin-top: 9px; padding: 4px 8px; border-radius: 999px; background: #fff0f3; color: #d62948; font-size: 11px; font-weight: 800; }
+    .withdraw-button { display: block; width: 100%; margin-top: 22px; padding: 14px 18px; border: 0; border-radius: 12px; background: #e52d4f; color: #fff; font: inherit; font-size: 14px; font-weight: 800; text-align: center; text-decoration: none; }
+    .withdraw-button:hover { background: #cc1f40; }
+    @media (max-width: 420px) { .page-wrap { padding: 22px; } }
+  </style>
+</head>
+<body>
+  <main class="page-wrap">
+    <a href="dashboard.html" class="back-link">&larr; Back to Dashboard</a>
+    <header>
+      <p class="eyebrow">SELLER PAYOUTS</p>
+      <h1>Withdrawal Requirements</h1>
+      <p class="subtitle">Complete each item before submitting a withdrawal.</p>
+    </header>
+
+    <section class="notice">
+      <span class="notice-icon">!</span>
+      <div><strong>Withdrawal review required</strong><p>Your account must meet the requirements below before payouts can be released.</p></div>
+    </section>
+
+    <section class="intro"><p>These checks help keep seller payouts secure, compliant, and available for eligible balances.</p></section>
+
+    <section class="requirements" aria-label="Withdrawal requirements">
+      <article class="requirement">
+        <span class="requirement-number">1</span>
+        <div><h2>State regulations approval</h2><p>Your seller account and payout details must be approved for withdrawals in your state.</p><span class="status">REVIEW REQUIRED</span></div>
+      </article>
+      <article class="requirement">
+        <span class="requirement-number">2</span>
+        <div><h2>Minimum product balance</h2><p>Keep the required product balance available to cover open orders, returns, and seller obligations.</p><span class="status">BALANCE CHECK</span></div>
+      </article>
+      <article class="requirement">
+        <span class="requirement-number">3</span>
+        <div><h2>Withdrawal eligibility</h2><p>Your available balance must be cleared and eligible for payout before a withdrawal can be requested.</p><span class="status">PENDING REVIEW</span></div>
+      </article>
+    </section>
+
+    <a href="dashboard.html" class="withdraw-button">Return to Dashboard</a>
+  </main>
+  <script src="access-control.js"></script>
+  <script>if (!hasValidSellerSession()) window.location.href = 'index.html';</script>
+</body>
+</html>
