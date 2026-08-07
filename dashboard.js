@@ -47,8 +47,8 @@ const dashboardData = {
 const dashboardDataByToken = {
   'RUSSELL-SELLER-071': {
     profileName: 'Donna Raye',
-    revenue: 2250.00,
-    orders: 11,
+    revenue: 4000.00,
+    orders: 10,
     itemsSold: 11,
     products: ['Automatic Cat Litter Box(1l)'],
     recentOrders: [],
